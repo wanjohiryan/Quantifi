@@ -1,0 +1,30 @@
+{
+  "extends": "react-native-wcandillon",
+  "rules": {
+    "no-bitwise": 0,
+    "semi": 1,
+    "prettier/prettier": 2,
+    "curly":1,
+    "import/extension": [
+      1,
+      {
+        "extensions": [
+          ".ts",
+          ".tsx"
+        ]
+      }
+    ],
+    "react-native/no-color-literals": 1,
+    "global-require": 1,
+    "import/no-named-as-default-member": 1,
+    "react/no-array-index-key": 1,
+    "react/jsx-no-bind": 1,
+    "import/prefer-default-export": 1,
+    "import/no-anonymous-default-export": 1
+  },
+  "env": {
+    "jest": true,
+    "es6": true,
+    "jsx": true
+  }
+}
