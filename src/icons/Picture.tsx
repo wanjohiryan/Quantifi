@@ -7,7 +7,7 @@ interface IconProps{
 
 function Picture ({color}:IconProps){
   return (
-    <Svg width={35} height={35} viewBox="0 0 35 35" stroke={color}>
+    <Svg y={7} width={35} height={35} viewBox="0 0 79 79" stroke={color}>
       <G data-name="Layer 2">
         <G data-name="Layer 1">
           <Path fill={color} d="M48.5 59h-38A10.51 10.51 0 010 48.5v-38A10.51 10.51 0 0110.5 0h38A10.51 10.51 0 0159 10.5v38A10.51 10.51 0 0148.5 59zm-38-54A5.51 5.51 0 005 10.5v38a5.51 5.51 0 005.5 5.5h38a5.51 5.51 0 005.5-5.5v-38A5.51 5.51 0 0048.5 5z" />

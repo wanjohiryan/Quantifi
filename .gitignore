@@ -2,6 +2,14 @@
 #
 .DS_Store
 
+#Personal-Garbage
+_tests_/
+__tests__/
+
+#Assets
+assets/
+Assets/
+
 # Xcode
 #
 build/

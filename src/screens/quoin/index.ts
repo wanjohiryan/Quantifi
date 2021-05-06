@@ -1,1 +1,1 @@
-export {default as Quoin} from "./Quoin";
+export {default as Quoin} from "./LiquidSwipe";

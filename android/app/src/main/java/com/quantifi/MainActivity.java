@@ -1,6 +1,10 @@
 package com.quantifi;
 
+
 import com.facebook.react.ReactActivity;
+import com.facebook.react.ReactActivityDelegate;
+import com.facebook.react.ReactRootView;
+import com.swmansion.gesturehandler.react.RNGestureHandlerEnabledRootView;
 import android.os.Bundle;
 
 
@@ -14,7 +18,17 @@ public class MainActivity extends ReactActivity {
   protected String getMainComponentName() {
     return "Quantifi";
   }
-  
+  /**react-native-gesture-handler*/
+      @Override
+      protected ReactActivityDelegate createReactActivityDelegate(){
+        return new ReactActivityDelegate(this, getMainComponentName()) {
+          @Override
+          protected ReactRootView createRootView(){
+            return new RNGestureHandlerEnabledRootView(MainActivity.this);
+          }
+        };
+      }
+  /*react-native-screens*/
   @Override
   protected void onCreate(Bundle savedInstanceState){
     super.onCreate(null);

@@ -7,8 +7,8 @@ interface IconProps{
 function Home ({color}:IconProps)  {
   return (
     <Svg
-      width={35}
-      height={35}
+      width={43}
+      height={43}
       viewBox="0 0 56 56"
     >
       <Path

@@ -10,7 +10,7 @@ function User ({color}:IconProps) {
     <Svg 
     height={20}
     width={20}
-    viewBox="0 0 14 20">
+    viewBox="0 0 10 20">
       <G data-name="Layer 2">
         <G data-name="Layer 1">
           <Path

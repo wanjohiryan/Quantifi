@@ -12,6 +12,20 @@ target 'Quantifi' do
 
   pod 'RNReanimated', :path => '../node_modules/react-native-reanimated'
 
+  pod 'react-native-video', :path => '../node_modules/react-native-video'
+
+  pod 'react-native-track-player', :path => '../node_modules/react-native-track-player'
+
+  pod 'rn-fetch-blob', :path => '../node_modules/rn-fetch-blob'
+
+  pod 'RNReactNativeGetMusicFiles', :path => '../node_modules/react-native-get-music-files'
+
+  pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
+
+  pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
+
+  pod 'react-native-music-control', :path => '../node_modules/react-native-music-control'
+
   target 'QuantifiTests' do
     inherit! :complete
     # Pods for testing

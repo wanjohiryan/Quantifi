@@ -2,10 +2,7 @@ import React from 'react';
 import {
   GestureResponderEvent,
   View,
-  Dimensions,
-  StyleSheet,
   TouchableWithoutFeedback,
-  ImageBackground
 } from "react-native";
 import Animated, {
   useSharedValue,
@@ -19,68 +16,16 @@ import Animated, {
 import { BottomTabNavigationOptions } from "@react-navigation/bottom-tabs";
 import { BottomTabBarProps, BottomTabDescriptorMap, BottomTabNavigationEventMap } from "@react-navigation/bottom-tabs/lib/typescript/src/types";
 import { NavigationHelpers, TabNavigationState } from "@react-navigation/native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
+import styles,{tabWidth} from "./Styles";
+import tabs,{colors} from "./Model";
 import CircleCursor from "./FluidCircle";
-import { Message, Home, Search, Quoin, User } from "../../icons"
-
-const { width, height } = Dimensions.get('window');
 
 /**
  * This is the React Component Rendering the Bottom Tabbar as a whole
+ * ]
  */
-const tabs = [
-  {
-    name: 'home',
-    item: <Home />,
-  },
-  {
-    name: 'popular',
-    item: <Search />,
-  },
-  {
-    name: 'Quoin',
-    item: <Quoin />,
-  },
-  {
-    name: 'inbox',
-    item: <Message />,
-  },
-  {
-    name: 'user',
-    item: <User />,
-  },
-];
-
-const colors = [
-  "#3984FF",
-  "#39ffb4",
-  "#ffb439",
-  "#ff00ff",
-  "#0000ff",
-]
-export const tabWidth = width / tabs.length;
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    backgroundColor: 'white',
-  },
-  tab: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 64,
-    zIndex: 2,
-  },
-  activeIcon: {
-    backgroundColor: 'white',
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
 
 type ButtonProps = {
   options: BottomTabNavigationOptions;
@@ -119,7 +64,7 @@ function Button({
       transform: [{ translateY: 10 * (1 - visibility) }],
     };
   });
-
+   const iconColor = "grey";
   return (
     <TouchableWithoutFeedback
       accessibilityRole="button"
@@ -129,7 +74,7 @@ function Button({
       onPress={onPress}>
       <View style={styles.tab}>
         <Animated.View style={staticIconStyle}>
-          {React.cloneElement(children, { color: color })}
+          {React.cloneElement(children, { color: iconColor })}
         </Animated.View>
       </View>
     </TouchableWithoutFeedback>
@@ -146,7 +91,7 @@ function Bar({ state, navigation, descriptors }: BarProps) {
 
   const activeIndex = useSharedValue(0);
   const indicatorPosition = useDerivedValue(() => {
-    return withTiming(activeIndex.value * tabWidth + tabWidth / 2, {
+    return withTiming((activeIndex.value * tabWidth) + tabWidth / 2, {
       duration: 800,
     });
   });
@@ -159,14 +104,13 @@ function Bar({ state, navigation, descriptors }: BarProps) {
       transform: [{ translateX:withSpring(indicatorPosition.value, { velocity })}],
     };
   });
-  
 
-  const color = "black";
+  const color = "white";
   
   return (
-    <Animated.View style={styles.container}>
+    <View style={styles.container}>
         <Animated.View
-          style={[{ position: 'absolute', left: -tabWidth }, indicatorStyle]}>
+          style={[styles.indicator, indicatorStyle]}>
           {tabs.map((tab, index) => (
             <CircleCursor
               key={`bg-${index}`}
@@ -228,31 +172,9 @@ function Bar({ state, navigation, descriptors }: BarProps) {
           </React.Fragment>
         );
       })}
-    </Animated.View>
+    </View>
   );
 }
-
-const tabBarStyles = StyleSheet.create({
-  top:{
-    top: -30,
-    borderBottomLeftRadius: 40,
-    borderBottomRightRadius: 40,
-    height:30,
-    width,
-    position:"absolute",
-  },
-  container: {
-    width,
-    flex: 1,
-    top: height / 1.04,//300 | 1.1( StatusBar.translucent === false)
-    position: "absolute",
-  },
-  dummyPusher: {
-    flexDirection: "row",
-  },
-});
-
-
 
 interface TabbarProps extends BottomTabBarProps {
   state: TabNavigationState<Record<string, object | undefined>>;
@@ -261,20 +183,27 @@ interface TabbarProps extends BottomTabBarProps {
 }
 
 function TabBar({ state, navigation, descriptors }: TabbarProps): React.ReactElement {
-  return (
-      
-    <View style={tabBarStyles.container}>
-      <View style={tabBarStyles.top}/>
-      <ImageBackground source={require("./assets/back.png")}>
-      <View style={tabBarStyles.dummyPusher} />
+  const {bottom: paddingBottom} = useSafeAreaInsets();
+  return ( 
+    <View style={[styles.tabContainer, {paddingBottom: paddingBottom }]}>
+      <View style={styles.dummyPusher} />
       <Bar
         state={state}
         navigation={navigation}
         descriptors={descriptors}
       />
-      </ImageBackground>
-    </View>
+      </View>
+ 
   );
 }
 
 export default TabBar;
+
+/**
+ * <ImageBackground
+      style={styles.backImage}
+      source={require("./assets/back.png")}>
+     <View style={{backgroundColor:"rgba(0,0,0,0.6)", flex:1}}>
+          </ImageBackground>
+    </View>
+ */

@@ -1,98 +1,47 @@
 import * as React from "react";
-import {
-    createBottomTabNavigator,
-    BottomTabBarProps,
-} from "@react-navigation/bottom-tabs";
-import { enableScreens } from "react-native-screens";
-import { NavigationContainer } from "@react-navigation/native";
-
-import Tabbar from "./src/screens/tabbar/BottomTab";
-import { Home } from "./src/screens/home";
-import { Inbox } from "./src/screens/inbox";
-import { Quoin } from "./src/screens/quoin";
-import { Trending } from "./src/screens/popular";
-import { Profile } from "./src/screens/userprofile";
 import { StatusBar } from "react-native";
+import { enableScreens } from "react-native-screens";
+import {cacheAssets} from "./src/utils/Cache";
+import {checkStoragePermissions, getStoragePermission} from "./src/utils/Permissions";
+//import { Provider } from 'react-redux';
+//import { PersistGate } from 'redux-persist/integration/react';
+import { NavigationContainer } from "@react-navigation/native";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import { BottomTab } from "./src/navigator";
+import RNFetchBlob from "rn-fetch-blob";
+//import {store,persistor} from "./src/redux/store";
 
 enableScreens();
-
-type Routes = {
-    Home: React.ReactElement,
-    Inbox: React.ReactElement,
-    Quoin: React.ReactElement,
-    Trending: React.ReactElement,
-    Profile: React.ReactElement,
-}
-
-const BottomTab: React.FC = () => {
- 
- const Tab = createBottomTabNavigator<Routes>();
-
-  return (
-        <Tab.Navigator
-            initialRouteName='Home'
-            backBehavior="none"
-            tabBarOptions={{
-                showLabel: false,               
-            }}
-            tabBar={({ state, navigation, descriptors }: BottomTabBarProps) => 
-            
-            <Tabbar {...{state, navigation, descriptors}} />}>
-            
-            <Tab.Screen
-                name="Home"
-                component={Home}
-                options={{
-                    tabBarLabel: "Home"
-                }}
-            />
-            <Tab.Screen
-                name="Trending"
-                component={Trending}
-                options={{
-                    tabBarLabel: "Popular"
-                }}
-            />
-            <Tab.Screen
-                name="Quoin"
-                component={Quoin}
-                options={{
-                    tabBarLabel: "Quoin"
-                }}
-            />
-            <Tab.Screen
-                name="Inbox"
-                component={Inbox}
-                options={{
-                    tabBarLabel: "Inbox"
-                }}
-            />
-            <Tab.Screen
-                name="Profile"
-                component={Profile}
-                options={{
-                    tabBarLabel: "Profile"
-                }}
-            />
-        </Tab.Navigator>
-    )
-};
-
 //const AppNavigator = createAppContainer(BottomTab);
 
-const App = () => (
-    
-    <NavigationContainer>
-      <StatusBar 
-        animated={true}
-        backgroundColor="#39ffb4"
-        barStyle="dark-content"
-        translucent={true}
-      >
-      </StatusBar>
-      <BottomTab/>
-	</NavigationContainer>
-   
-);
+export default class App extends React.PureComponent {
+    constructor(props: {} | Readonly<{}>) {
+        super(props);
+    }
 
-export default App;
+     /**async componentDidMount(){
+        await cacheAssets()
+     } */
+    
+    render() {
+        return (
+                    <SafeAreaProvider>
+                        <NavigationContainer>
+                            <StatusBar
+                                backgroundColor="black"
+                                barStyle="light-content"
+                            />
+                            <BottomTab />
+                        </NavigationContainer>
+                    </SafeAreaProvider>
+        )
+    }
+};
+/**    const granted = await checkStoragePermissions();
+        if(!granted)
+        { await getStoragePermission()}
+        else{
+            //const Dir = await RNFetchBlob.fs.dirs.DocumentDir;//data/user/0/com.quantifi/files
+            //console.log(Dir)}
+            cacheAssets()
+    }} */

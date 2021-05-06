@@ -1,16 +1,46 @@
 import * as React from "react"
-import Svg, { Path } from "react-native-svg"
+import Svg, { G, Path } from "react-native-svg"
 
 interface IconProps{
     color?:string;
 }
+//,props: SvgProps
 
-function Message2 ({color}:IconProps){
+function SvgComponent({color}:IconProps) {
   return (
     <Svg
-      width={24}
-      height={24}
-      viewBox="0 0 24 24"
+      width={20}
+      height={21}
+      viewBox="0 0 18 18"
+      fill={color}
+    >
+      <G strokeWidth={7.068}>
+        <Path d="M2.555.59C1.905.79 1.24 1.383.915 2.05c-.297.623-.311.736-.269 7.52L.69 16.45l.466.453c.396.397.552.467 1.16.467.678 0 .72-.028 1.795-1.09l1.103-1.09 5.244-.043 5.231-.042.58-.383c.31-.212.72-.623.904-.92l.34-.538V2.346l-.382-.58c-.212-.312-.622-.723-.919-.907l-.537-.34L9.312.491C5.82.477 2.767.52 2.555.591zm12.977 1.912l.354.34V12.783l-.354.34-.339.354H4.506l-1.089 1.09-1.103 1.105V2.842l.354-.34.34-.354H15.192z" />
+        <G data-name="Layer 1">
+          <Path
+		    //height={3}
+			//width={3}
+            data-name="heart"
+            d="M19 5.7c0 6.75-8.17 10.9-9 11.25-.83-.35-9-4.5-9-11.25C1 1.2 6.63-1 10 3.45 13.38-1 19 1.2 19 5.7z"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={1.589}
+            transform="matrix(.44107 0 0 .39604 4.908 4.216)"
+            fill="#e01724"
+            stroke="#e01724"
+          />
+        </G>
+      </G>
+    </Svg>
+  )
+}
+
+export default SvgComponent
+  /**
+   *  <Svg
+      width={27}
+      height={27}
+      viewBox="0 0 20 24"
       strokeWidth={2}
       stroke={color}
       fill="none"
@@ -32,3 +62,4 @@ function Message2 ({color}:IconProps){
 }
 
 export default Message2
+   */

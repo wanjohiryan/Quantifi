@@ -35,6 +35,10 @@ type ActiveIconProps = {
   color:string;
 };
 
+/**
+ * the active icons y-index seem to be off; 🤔
+ */
+
 
 function ActiveIcon({color, index, children, activeIndex, width }: ActiveIconProps) {
   const circleIconStyle = useAnimatedStyle(() => {
@@ -53,9 +57,9 @@ function ActiveIcon({color, index, children, activeIndex, width }: ActiveIconPro
       style={[
         {
           position: 'absolute',
-          width: width,
+          width: width ,
           top: -3,
-          left: width / 2,
+          left: width/1.65,
           height: 64,
           justifyContent: 'center',
           alignItems: 'center',
@@ -127,8 +131,13 @@ const CircleCursor = ({index,colors, colorIcon, activeIndex,item, width, indicat
           >
               {item}
     </ActiveIcon>
-    <Svg style={{position: "absolute"}}
-    width={width * 2.5} height={64} >
+    <Svg 
+    style={{
+      position: "absolute", 
+      alignItems:"center", 
+      justifyContent:"center"}}
+      width={width * 2.5} 
+      height={64} >
       <AnimatedPath  animatedProps={animatedProps} /> 
     </Svg>
   </View>
