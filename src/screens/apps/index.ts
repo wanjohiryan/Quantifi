@@ -1,0 +1,1 @@
+export {default as Trending} from "../home/Home";

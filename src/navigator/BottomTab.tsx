@@ -8,7 +8,7 @@ import Tabbar from "./../screens/tabbar/BottomTab";
 import { Home } from "./../screens/home";
 import { Inbox } from "./../screens/inbox";
 import { Quoin } from "./../screens/quoin";
-import { Trending } from "./../screens/popular";
+import { Trending } from "./../screens/apps";
 import { Profile } from "./../screens/userprofile";
 
 type Routes = {

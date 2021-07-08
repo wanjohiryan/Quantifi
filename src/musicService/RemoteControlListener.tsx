@@ -1,49 +1,46 @@
-import TrackPlayer,
-		{STATE_BUFFERING,
-         STATE_PAUSED,
-         STATE_PLAYING, 
-		 STATE_STOPPED, 
-		 TrackPlayerEvents} from 'react-native-track-player';
-import MusicControl from "react-native-music-control";
+import TrackPlayer,{TrackPlayerEvents} from 'react-native-track-player';
+//import MusicControl from "react-native-music-control";
 //import { store } from './../redux/store';
 //import { getRandomNumber } from '../utils';
 
 
 
 module.exports = async function () {
-	//MusicControl.handleAudioInterruptions(true);
-	//MusicControl.enableBackgroundMode(true);
-/***	TrackPlayer.addEventListener(TrackPlayerEvents.PLAYBACK_ERROR, async (e)=>{
-		MusicControl.updatePlayback({
-			elapsedTime: await TrackPlayer.getPosition(),
-			state:MusicControl.STATE_ERROR
-		})
-		console.log(e)
-	}) */
+	TrackPlayer.addEventListener(TrackPlayerEvents.PLAYBACK_QUEUE_ENDED,async()=>{
+		await TrackPlayer.skip("0");
+		await TrackPlayer.pause()
+	 })
 
-	
-
-	TrackPlayer.addEventListener(TrackPlayerEvents.REMOTE_PLAY, () => {
-		TrackPlayer.play();
+	TrackPlayer.addEventListener(TrackPlayerEvents.REMOTE_PLAY, async() => {
+		await TrackPlayer.play();
 		//store.dispatch({ type: 'set_playback', payload: true });
 	});
-
-
-	TrackPlayer.addEventListener(TrackPlayerEvents.REMOTE_PAUSE, () => {
-		TrackPlayer.pause();
-		//store.dispatch({ type: 'set_playback', payload: false });
+	
+	TrackPlayer.addEventListener(TrackPlayerEvents.REMOTE_DUCK,(e:{paused: boolean})=>{
+		if (e.paused){
+			TrackPlayer.pause()
+		} else {
+			TrackPlayer.play();
+		}
 	});
 
-	TrackPlayer.addEventListener(TrackPlayerEvents.REMOTE_NEXT, () => {
-		TrackPlayer.skipToNext();
+	TrackPlayer.addEventListener(TrackPlayerEvents.REMOTE_PAUSE, async() => {
+		await TrackPlayer.pause();
+		// setTimeout(async() => {
+		// 	await TrackPlayer.reset()
+		// }, 6000);
 	});
 
-	TrackPlayer.addEventListener(TrackPlayerEvents.REMOTE_PREVIOUS, () => {
-		TrackPlayer.skipToPrevious();
+	TrackPlayer.addEventListener(TrackPlayerEvents.REMOTE_NEXT, async() => {
+		await TrackPlayer.skipToNext();
 	});
 
-	TrackPlayer.addEventListener(TrackPlayerEvents.REMOTE_STOP, () => {
-		TrackPlayer.destroy();
+	TrackPlayer.addEventListener(TrackPlayerEvents.REMOTE_PREVIOUS, async() => {
+		await TrackPlayer.skipToPrevious();
+	});
+
+	TrackPlayer.addEventListener(TrackPlayerEvents.REMOTE_STOP,() => {
+		 TrackPlayer.destroy();
     })
 }
 /**

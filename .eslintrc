@@ -1,5 +1,10 @@
 {
-  "extends": "react-native-wcandillon",
+  "extends": [
+        "eslint",
+        "react-native-wcandillon", 
+			  "eslint-plugin-import",
+			  "eslint-plugin-reanimated",
+			  "eslint-plugin-react-hooks"],
   "rules": {
     "no-bitwise": 0,
     "semi": 1,

@@ -41,6 +41,10 @@ type imagesType = {
   avatar: NodeRequire | string;
   id: string;
 };
+interface image {
+  id:number;
+  url:string|number;
+}
 
 const processImages = async (images: imagesType[]) => {
   const processedImages = [...images];
@@ -78,20 +82,26 @@ const processImages = async (images: imagesType[]) => {
     
         //@ts-ignore
         processedImages[i] = { ...image, width: size.width, height: size.height, dimension,id:image.id };
-      };
+      }else{console.log("culprit for image", image.url)}
     
   }
   return processedImages;
 }
 
-const renderItem = ({ url,id }: any, ht: number, wd: number, imageSpacing = 0) => (
-  <Image
-    key={typeof url !== "string" ? `g-${id}`: `h-${id}`}
-    source={typeof url === "string" ? {uri:url} : url}
+const renderItem = ({ url,id }: image, ht: number, wd: number, imageSpacing = 0) => {
+  typeof url === "string" ? 
+    (<Image
+    key={`h-${id}`}
+    source={ {uri:url}}
     style={{ width: wd, height: ht, marginBottom: imageSpacing }}
     resizeMode="cover"
-  />
-);
+  />):(<Image
+    key={`g-${id}`}
+    source={url}
+    style={{ width: wd, height: ht, marginBottom: imageSpacing }}
+    resizeMode="cover"
+  />)
+};
 
 
 function Masonry() {

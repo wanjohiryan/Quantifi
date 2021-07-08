@@ -1,1 +1,1 @@
-export {default as Inbox} from "./bbc-iplayer/components/Channels";
+export {default as Inbox} from "./bbc-iplayer/Channels";

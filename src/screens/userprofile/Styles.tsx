@@ -1,6 +1,6 @@
 import {Dimensions, StyleSheet} from "react-native";
 
-export const HEIGHT = Dimensions.get('window').height- 130;
+export const HEIGHT = Dimensions.get('window').height - 100;
 const hHeight = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
@@ -24,12 +24,14 @@ const styles = StyleSheet.create({
     video: {
       //...StyleSheet.absoluteFillObject,
       position: 'absolute',
+      backgroundColor:"#161819",
+      borderRadius: 30,
       top: 0,
       left: 0,
       bottom: 0,
       right: 0,
       alignSelf:"center",
-      backgroundColor:"black",
+      //backgroundColor:"black",
       //tintColor:"black",
       height:"100%",
       width:"100%",

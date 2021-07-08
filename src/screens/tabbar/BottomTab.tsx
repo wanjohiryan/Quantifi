@@ -2,6 +2,7 @@ import React from 'react';
 import {
   GestureResponderEvent,
   View,
+  StyleSheet,
   TouchableWithoutFeedback,
 } from "react-native";
 import Animated, {
@@ -12,7 +13,9 @@ import Animated, {
   Extrapolate,
   withTiming,
   withSpring,
+  withDelay,
 } from 'react-native-reanimated';
+import  LinearGradient  from "react-native-linear-gradient";
 import { BottomTabNavigationOptions } from "@react-navigation/bottom-tabs";
 import { BottomTabBarProps, BottomTabDescriptorMap, BottomTabNavigationEventMap } from "@react-navigation/bottom-tabs/lib/typescript/src/types";
 import { NavigationHelpers, TabNavigationState } from "@react-navigation/native";
@@ -32,22 +35,26 @@ type ButtonProps = {
   onPress: (event: GestureResponderEvent) => void;
   onLongPress: (event: GestureResponderEvent) => void;
   width: number;
+  isActive:boolean;
   position: number;
+  readonly activeIndex:Animated.SharedValue<number>;
   readonly indicatorPosition: Animated.SharedValue<number>;
-  children: React.ReactElement;
+  item: React.ReactElement;
   color: string;
 };
 function Button({
-  color,
-  children,
+  item,
   options,
   onPress,
   onLongPress,
   width,
   position,
+  activeIndex,
   indicatorPosition,
+  isActive
 }: ButtonProps) {
   const staticIconStyle = useAnimatedStyle(() => {
+    const yOffset = isActive ? 0 : 80;
     const visibility = interpolate(
       indicatorPosition.value,
       [
@@ -59,12 +66,33 @@ function Button({
       [1, 0, 0, 1],
       Extrapolate.CLAMP
     );
+    const translateY = interpolate(
+      activeIndex.value,
+      [0, 1, 2],
+      [0, 50, 0]
+    );
+    const translateX = interpolate(
+      activeIndex.value,
+      [0, 1, 2],
+      [50, 0, 50]
+    )
+    const scaleCamera = interpolate(
+      activeIndex.value,
+      [0, 1, 2],
+      [0, 5, 0]
+    )
     return {
-      opacity: visibility,
-      transform: [{ translateY: 10 * (1 - visibility) }],
+      //opacity: visibility,
+      // opacity: visibility,
+      //transform: isActive ? [{translateY: 50},{translateX:0}] : [{translateX:50},{translateY:0}],
+      //scale:scaleCamera,
+      //transform:[{translateY: 50}],
+      //top:-10,isActive ?: withSpring(0)
+      //justifyContent:"space-between"
+      // transform: [{ translateY:isActive ? 350 : 0}],
     };
   });
-   const iconColor = "grey";
+   const iconColor = "white";
   return (
     <TouchableWithoutFeedback
       accessibilityRole="button"
@@ -72,9 +100,10 @@ function Button({
       onLongPress={onLongPress}
       testID={options.tabBarTestID}
       onPress={onPress}>
-      <View style={styles.tab}>
+      <View style={[styles.tab,{paddingBottom:-50}]}>
         <Animated.View style={staticIconStyle}>
-          {React.cloneElement(children, { color: iconColor })}
+          {/* {React.cloneElement(children, { color: iconColor })} {children} */}
+			  <View>{item}</View>
         </Animated.View>
       </View>
     </TouchableWithoutFeedback>
@@ -89,7 +118,7 @@ interface BarProps extends BottomTabBarProps {
 
 function Bar({ state, navigation, descriptors }: BarProps) {
 
-  const activeIndex = useSharedValue(0);
+  const activeIndex = useSharedValue(1);
   const indicatorPosition = useDerivedValue(() => {
     return withTiming((activeIndex.value * tabWidth) + tabWidth / 2, {
       duration: 800,
@@ -110,7 +139,7 @@ function Bar({ state, navigation, descriptors }: BarProps) {
   return (
     <View style={styles.container}>
         <Animated.View
-          style={[styles.indicator, indicatorStyle]}>
+          style={[styles.indicator,{bottom:0}, indicatorStyle]}>
           {tabs.map((tab, index) => (
             <CircleCursor
               key={`bg-${index}`}
@@ -135,15 +164,15 @@ function Bar({ state, navigation, descriptors }: BarProps) {
         const onPress = () => {
           activeIndex.value = index
 
-          const event = navigation.emit({
-            type: "tabPress",
-            target: route.key,
-            canPreventDefault: true
-          });
+          // const event = navigation.emit({
+          //   type: "tabPress",
+          //   target: route.key,
+          //   canPreventDefault: true
+          // });
 
-          if (!isFocused && !event.defaultPrevented) {
-            navigation.navigate(route.name)
-          }
+          // if (!isFocused && !event.defaultPrevented) {
+          //   navigation.navigate(route.name)
+          // }
         };
 
         const onLongPress = () => {
@@ -158,6 +187,7 @@ function Bar({ state, navigation, descriptors }: BarProps) {
         return (
           <React.Fragment key={index}>
             <Button
+              {...{activeIndex,item }}
               color={color}
               onPress={onPress}
               options={options}
@@ -165,10 +195,9 @@ function Bar({ state, navigation, descriptors }: BarProps) {
               width={tabWidth}
               indicatorPosition={indicatorPosition}
               position={position}
+              isActive={activeIndex.value === 1}
               key={`bg-${index}`}
-            >
-              {item}
-            </Button>
+            />
           </React.Fragment>
         );
       })}
@@ -185,15 +214,19 @@ interface TabbarProps extends BottomTabBarProps {
 function TabBar({ state, navigation, descriptors }: TabbarProps): React.ReactElement {
   const {bottom: paddingBottom} = useSafeAreaInsets();
   return ( 
-    <View style={[styles.tabContainer, {paddingBottom: paddingBottom }]}>
-      <View style={styles.dummyPusher} />
+    <View style={[styles.tabContainer, {paddingBottom}]}>
+    <View style={[{borderTopColor:"#ff9000", borderTopWidth:2, height:2,position:"relative", top:-10, bottom:0,left:0, right:0}]}/>
+      <LinearGradient
+        style={{ ...StyleSheet.absoluteFillObject, bottom: 0, width:"100%", }}
+        colors={["transparent", "rgba(0, 0, 0, 0.2)", "black"]}
+      />
+      {/* <View style={styles.dummyPusher} /> */}
       <Bar
         state={state}
         navigation={navigation}
         descriptors={descriptors}
       />
       </View>
- 
   );
 }
 

@@ -36,6 +36,8 @@ export {default as AddBtn} from "./Add";
 export {default as AddRecording} from "./AddRecording";
 export {default as AddMp3} from "./AddMp3File";
 export {default as Smiley} from "./Smile";
+import Icon from "./iconsB";
+export default Icon;
 
 
 
