@@ -1,3 +1,5 @@
 []IOS Permissions as in androidManifest.xml
 []React native track player bug where it spins off multiple background services and then kills itself prematurely
 []IOS build and compare UI
+[]IOS LaunchScreen and colors plus text
+[]IOS equivalent of MainActivity.java

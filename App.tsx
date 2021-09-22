@@ -1,33 +1,46 @@
 import * as React from "react";
-import { StatusBar } from "react-native";
+import {StatusBar } from "react-native";
 import { enableScreens } from "react-native-screens";
-import {cacheAssets} from "./src/utils/Cache";
-import {checkStoragePermissions, getStoragePermission} from "./src/utils/Permissions";
-//import { Provider } from 'react-redux';
-//import { PersistGate } from 'redux-persist/integration/react';
 import { NavigationContainer } from "@react-navigation/native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { BottomTab } from "./src/navigator";
-import RNFetchBlob from "rn-fetch-blob";
-//import {store,persistor} from "./src/redux/store";
+import checkPermissions from "./src/utils/permissions"
+import { Data, DataType } from "./src/screens/inbox/bbc-iplayer/Data";
+import setUpPlayer from "./src/screens/inbox/bbc-iplayer/SetupPlayer";
+
 
 enableScreens();
-//const AppNavigator = createAppContainer(BottomTab);
 
-export default class App extends React.PureComponent {
-    constructor(props: {} | Readonly<{}>) {
+interface State {
+    songData: DataType[],
+  };
+
+export default class App extends React.PureComponent<{},State>{
+    constructor(props: {}) {
         super(props);
+        this.state = {
+            songData:Data
+        }
     }
-
-     /**async componentDidMount(){
-        await cacheAssets()
-     } */
     
+  //for rendering the trackPlayer on start-up;[]music has been redacted for now;
+  async componentDidMount(){
+        // const dat = this.state.songData.map((val, i) => {
+        //     return { ...val.song, id: `${i}` };
+        //  })
+    
+        // const songs = dat.length > 20 ? dat.slice(20, dat.length - 20) : dat;
+
+        // await setUpPlayer(songs);
+		await checkPermissions();
+  }
     render() {
         return (
                     <SafeAreaProvider>
                         <NavigationContainer>
                             <StatusBar
+                                animated
+                                showHideTransition='fade'
                                 backgroundColor="black"
                                 barStyle="light-content"
                             />
@@ -37,6 +50,8 @@ export default class App extends React.PureComponent {
         )
     }
 };
+
+
 /**    const granted = await checkStoragePermissions();
         if(!granted)
         { await getStoragePermission()}

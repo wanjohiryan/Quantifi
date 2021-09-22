@@ -1,1 +1,1 @@
-export {default as Trending} from "../home/Home";
+export {default as Camera} from "../apps/Camera";

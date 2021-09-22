@@ -12,8 +12,9 @@ import CircularSlider from "./progress/CircularSlider";
 import { default as ChannelIcon } from "./ChannelIcon";
 import { default as PanGesture } from "./PanGesture";
 import PlayPause from "./PlayPause";
-import { DataType } from "./Data";
+ import { DataType } from "./Data";
 import Username from "./Username";
+//import { DataProps } from "../../userprofile/Data";
 
 const { width: wWidth } = Dimensions.get("window");
 
@@ -33,6 +34,7 @@ const styles = StyleSheet.create({
 
 interface CircularSelectionProps {
   data: DataType[];
+  // posts:DataProps[];
   index: Animated.SharedValue<number>;
   isActive: Animated.SharedValue<boolean>;
 }
@@ -141,6 +143,7 @@ const CircularSelection = ({ index, data, isActive }: CircularSelectionProps) =>
           })}
         </Animated.View>
       </PanGesture>
+      {/**getRepeatMode, setRepeatMode */}
       <CircularSlider
         {...{ duration, position, radius: r }}
         style={{

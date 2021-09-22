@@ -1,51 +1,232 @@
-import {ImageRequireSource } from "react-native";
+import { ImageRequireSource } from "react-native";
 
-export const IMAGE_SOURCE:ImageRequireSource = require("./assets/defaultSong.png");
+export const IMAGE_SOURCE: ImageRequireSource = require("./assets/defaultSong.png");
 
-export type DataProps={
+//add Selena
+export type DataProps = {
   id: string,
-    videoUri:ImageRequireSource,
-    user: {
-      id: string,
-      username: string,
-      imageUri: ImageRequireSource,
-    },
-    description: string,
-    songName: string | null,
-    songImage: string | undefined,
-    likes: number,
-    comments: number,
-    shares: number,
+  type: "image" | "video",
+  src: ImageRequireSource,
+  attachment?: {
+    type: "audio" | "video" | "blog",
+    videoSource?: ImageRequireSource,
+    song?: {
+      url: string,
+      title:string,
+      artwork:string,
+      artist:string,
+	},
+  },
+  user: {
+    id: string,
+    username: string,
+    imageUri: ImageRequireSource,
+  },
+  title?: string,
+  description?:string
+  stars:number,
+  song?: {
+    url: ImageRequireSource,
+    title:string,
+    artwork:ImageRequireSource,
+    artist:string,
+},
+  likes: number,
+  comments: number,
+  shares: number,
 };
 
-export const Data:DataProps[] = [
-  
+export const Data: DataProps[] = [
+  {
+    id: 'q11',
+    type: "video",
+    src: require("./assets2/DeadTrailer.mp4"),
+    user: {
+      id: 'user51',
+      username: 'snapchatOriginals',
+      imageUri: require("./assets2/Willy.jpg"),
+    },
+	attachment:{
+      type:"video",
+      videoSource:require("./assets2/Dead.mp4")
+    },
+    title: "Zombies, be very afraid",
+    stars:26367383992,
+    song: undefined,
+    likes: 45234,
+    comments: 430204,
+    shares: 231,
+  },
+  {
+    id: 'q112',
+    type: "video",
+    src: require("./assets2/EricThomasTrailer.mp4"),
+    attachment:{
+      type:"audio",
+      song:{ 
+        url:"./assets2/EricPodcast.mp3",//require("./assets2/EricPodcast.mp3"),
+        artwork:"./assets2/EricThomas.jpeg",//require("./assets2/EricThomas.jpeg"),
+        artist:"ericThomas",
+        title:"Motivation"
+      },
+    },
+    user: {
+      id: 'user1',
+      username: 'ericThomas',
+      imageUri: require("./assets2/EricThomas.jpeg"),
+    },
+    title: "Motivation",
+    stars:26367383992,
+    song:undefined,
+    likes: 223434,
+    comments: 33102,
+    shares: 234421,
+  },
+  {
+    id: 'q12',
+    type: "video",
+    src: require("./assets2/EndlessTrailer.mp4"),
+    user: {
+      id: 'user1456',
+      username: 'snapOriginals',
+      imageUri: require("./assets2/Willy.jpg"),
+    },
+    title: "SnapOriginals",
+    stars:26367383992,
+    song: undefined,
+    likes: 23434,
+    comments: 33102,
+    shares: 234421,
+  },
+  {
+    id: 'q3334',
+    type: "video",
+    src: require("./assets2/HappierTrailer.mp4"),
+    attachment:{
+      type:"audio",
+      song:{ 
+        url:"./assets2/Happier.mp3",//require("./assets2/Happier.mp3"),
+        artwork:"./assets2/Happier.jpg",//require("./assets2/Happier.jpg"),
+        artist:"Marshmello",
+        title:"Happier"
+      },
+    },
+    user: {
+      id: 'user50',
+      username: 'Marshmellow',
+      imageUri: require("./assets2/Willy.jpg"),
+    },
+    title: "I want you to be happier",
+    stars:26367383992,
+    song: undefined,
+    likes: 23434,
+    comments: 33102,
+    shares: 234421,
+  },
+  {
+    id: 'q4',
+    type: "video",
+    src: require("./assets2/TrippinTrailer.mp4"),
+    user: {
+      id: 'user1456',
+      username: 'snapOriginals',
+      imageUri: require("./assets2/Willy.jpg"),
+    },
+    title: "SnapOriginals",
+    stars:26367383992,
+    song: undefined,
+    likes: 46383934,
+    comments: 3993102,
+    shares: 389280,
+  },
+  {
+    id: 'q44',
+    type: "video",
+    src: require("./assets2/honeyBeezTrailer.mp4"),
+    user: {
+      id: 'user3456',
+      username: 'snapOriginals',
+      imageUri: require("./assets2/Willy.jpg"),
+    },
+    title: "SnapOriginals",
+    stars:26367383992,
+    song: undefined,
+    likes: 46383934,
+    comments: 3993102,
+    shares: 389280,
+  },
+  {
+    id: 'q454',
+    type: "video",
+    src: require("./assets2/TwoSidesTrailer.mp4"),
+    attachment:{
+      type:"video",
+      videoSource:require("./assets2/TwoSides.mp4")
+    },
+    user: {
+      id: 'user3456',
+      username: 'snapOriginals',
+      imageUri: require("./assets2/Willy.jpg"),
+    },
+    title: "SnapOriginals",
+    stars:26367383992,
+    song: undefined,
+    likes: 46383934,
+    comments: 3993102,
+    shares: 389280,
+  },
+  {
+    id: 'q1',
+    type: "video",
+    src: require("./assets2/HateMeTrailer.mp4"),
+    attachment:{
+      type:"audio",
+      song:{ 
+        url:"./assets2/HateMe.mp3",//require("./assets2/HateMe.mp3"),
+        artwork:"./assets2/HateMe.jpg",//require("./assets2/HateMe.jpg"),
+        artist:"Ellie Goulding, Juice Wrld",
+        title:"Hate Me"
+      },
+    },
+    user: {
+      id: 'user81',
+      username: 'ellieGoulding',
+      imageUri: require("./assets2/HateMe.jpg"),
+    },
+    title: "Hate Me by Ellie Goulding & Juice Wrld",
+    likes: 287484834,
+    comments: 73738302,
+    shares: 83773721,
+    stars:382929,
+  },
   {
     id: 'p4',
-    videoUri: require("./assets/20210402025926_instagram_2.mp4"),
+    type: "video",
+    src: require("./assets/20210402025926_instagram_2.mp4"),
     user: {
       id: 'u1',
-      username: 'tamiza',
+      username: 'achieng',
       imageUri: require("./assets/20210402030056_instagram_5.jpg"),
     },
-    description: "best bae",
-    songName: null,
-    songImage: undefined,
+    description: "tiktok challenge",
+    stars:26367383992,
+    song: undefined,
     likes: 234,
     comments: 302,
     shares: 21,
   },
   {
     id: 'p3',
-    videoUri: require("./assets/20210402034749_instagram_17.mp4"),
+    type: "video",
+    src: require("./assets/20210402034749_instagram_17.mp4"),
     user: {
       id: 'u8',
       username: 'wendyWe',
       imageUri: require("./assets/20210412192956_instagram_25.jpg"),
     },
     description: "🤐🤐🤐",
-    songName: 'Avicii - The Days',
-    songImage: undefined,
+    stars:26367383992,
+    song: undefined,
     likes: 123,
     comments: 12,
     shares: 44,
@@ -53,15 +234,16 @@ export const Data:DataProps[] = [
 
   {
     id: 'p5',
-    videoUri: require("./assets/20210402025956_instagram_3.mp4"),
+    src: require("./assets/20210402025956_instagram_3.mp4"),
+    type: "video",
     user: {
       id: 'u2',
       username: 'achieGift',
       imageUri: require("./assets/20210402030056_instagram_5.jpg"),
     },
     description: "love boo 😍",
-    songName: null,
-    songImage: undefined,
+    stars:26367383992,
+    song: undefined,
     likes: 234,
     comments: 302,
     shares: 21,
@@ -69,15 +251,16 @@ export const Data:DataProps[] = [
 
   {
     id: 'p6',
-    videoUri: require("./assets/20210402030204_instagram_6.mp4"),
+    src: require("./assets/20210402030204_instagram_6.mp4"),
+    type: "video",
     user: {
       id: 'u3',
       username: 'tamiza',
       imageUri: require("./assets/20210402030056_instagram_5.jpg"),
     },
     description: "best bae",
-    songName: null,
-    songImage: undefined,
+    stars:26367383992,
+    song: undefined,
     likes: 234,
     comments: 302,
     shares: 21,
@@ -85,15 +268,16 @@ export const Data:DataProps[] = [
 
   {
     id: 'p7',
-    videoUri: require("./assets/20210412192956_instagram_27.mp4"),
+    src: require("./assets/20210412192956_instagram_27.mp4"),
+    type: "video",
     user: {
       id: 'u4',
       username: 'wendyWe',
       imageUri: require("./assets/20210412192956_instagram_30.jpg"),
     },
     description: "sinyorita 🥰",
-    songName: null,
-    songImage: undefined,
+    stars:26367383992,
+    song: undefined,
     likes: 234,
     comments: 302,
     shares: 21,
@@ -101,15 +285,16 @@ export const Data:DataProps[] = [
 
   {
     id: 'p8',
-    videoUri: require("./assets/20210402031332_instagram_9.mp4"),
+    type: "video",
+    src: require("./assets/20210402031332_instagram_9.mp4"),
     user: {
       id: 'u1',
       username: 'wendyWe',
       imageUri: require("./assets/20210412192956_instagram_30.jpg"),
     },
     description: "travel bae",
-    songName: null,
-    songImage: undefined,
+    stars:26367383992,
+    song: undefined,
     likes: 234,
     comments: 302,
     shares: 21,
@@ -117,15 +302,16 @@ export const Data:DataProps[] = [
 
   {
     id: 'p9',
-    videoUri: require("./assets/20210402033120_instagram_14.mp4"),
+    type: "video",
+    src: require("./assets/20210402033120_instagram_14.mp4"),
     user: {
       id: 'u5',
       username: 'wendyWe',
       imageUri: require("./assets/20210412192956_instagram_30.jpg"),
     },
     description: "loveWorld",
-    songName: null,
-    songImage: undefined,
+    stars:26367383992,
+    song: undefined,
     likes: 234,
     comments: 302,
     shares: 21,
@@ -133,15 +319,16 @@ export const Data:DataProps[] = [
 
   {
     id: 'p1',
-    videoUri: require("./assets/20210402030447_instagram_7.mp4"),
+    type: "video",
+    src: require("./assets/20210402030447_instagram_7.mp4"),
     user: {
       id: 'u6',
       username: "achieGift",
       imageUri: require("./assets/20210402030447_instagram_8.jpg"),
     },
     description: 'hahahaha oh @achieGift',
-    songName: null,
-    songImage: undefined,
+    stars:26367383992,
+    song: undefined,
     likes: 123,
     comments: 12,
     shares: 44,
@@ -149,15 +336,16 @@ export const Data:DataProps[] = [
 
   {
     id: 'p2',
-    videoUri: require("./assets/20210402034511_instagram_16.mp4") ,
+    type: "video",
+    src: require("./assets/20210402034511_instagram_16.mp4"),
     user: {
       id: 'u7',
       username: "wendyWe",
       imageUri: require("./assets/20210412192956_instagram_23.jpg"),
     },
     description: '🤣🤣 oh @wendyWe',
-    songName: 'Avicii - The Nights',
-    songImage: undefined,
+    stars:26367383992,
+    song: undefined,
     likes: 123,
     comments: 12,
     shares: 44,

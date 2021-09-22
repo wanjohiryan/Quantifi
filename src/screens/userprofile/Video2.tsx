@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   View,
   FlatList,
@@ -11,13 +11,14 @@ import {
   ListRenderItemInfo,
   ScrollView,
 } from 'react-native';
-import Video from 'react-native-video';
+import Video, { OnProgressData } from 'react-native-video';
+import Animated from "react-native-reanimated";
 
-import { Heart, Comment, Share, Music } from "../../icons";
+import Icon,{ Heart, Comment, Share, Music } from "../../icons";
 //import { Viewport } from "@skele/components";
-import styles, { HEIGHT } from "./Styles";
+import styles, { HEIGHT, WIDTH } from "./Styles";
 import { Data as posts, DataProps, IMAGE_SOURCE } from "./Data";
-import { Description } from '../../utils';
+import { Description, millify } from '../../utils';
 
 const hHeight = Dimensions.get("window").height;
 //const ViewportAwareVideo = Viewport.Aware(Video);
@@ -25,6 +26,8 @@ const hHeight = Dimensions.get("window").height;
 
 interface PostProps {
   data: DataProps;
+  progress: Animated.SharedValue<number>;
+  postProps: (props: DataProps) => void;
 };
 interface PostState {
   isLiked: boolean,
@@ -51,7 +54,7 @@ class Post extends React.PureComponent<PostProps, PostState> {
   }
 
   play() {
-    if (this._isMounted) {
+    if (this._isMounted && this.state.post.type == "video") {
       const status = this.playerRef?.props.paused
       if (status) {
         return this.setState({ isPaused: false })
@@ -59,8 +62,14 @@ class Post extends React.PureComponent<PostProps, PostState> {
     }
   };
 
-  pause() {
+  post() {
     if (this._isMounted) {
+      this.props.postProps(this.state.post)
+    }
+  }
+
+  pause() {
+    if (this._isMounted && this.state.post.type == "video") {
       const status = this.playerRef?.props.paused
       if (this.playerRef && !status) {
         this.setState({ isPaused: true })
@@ -69,14 +78,23 @@ class Post extends React.PureComponent<PostProps, PostState> {
   };
 
   componentWillUnmount() {
-    if (this._isMounted) {
+    if (this._isMounted && this.state.post.type == "video") {
       if (this.playerRef) {
         this.setState({ isPaused: true })
         // this.playerRef.forceUpdate()
       }
     }
-
   };
+  
+  getImageSize = () => {
+	  const image = require("./assets2/watermark.png")
+	  const size = Image.resolveAssetSource(image)
+      const whRatio = size.width / size.height;
+	return {
+		width:size.width,
+		height:size.height
+	}
+  }
 
   onLikePress = () => {
     const likesToAdd = this.state.isLiked ? -1 : 1;
@@ -89,6 +107,14 @@ class Post extends React.PureComponent<PostProps, PostState> {
     this.setState({ isLiked: !this.state.isLiked });
   };
 
+  handleProgress = (data: OnProgressData) => {
+    //currentTime: current Position in seconds
+    //playableDuration : available time to be played
+    //seekableDuration: total length time in seconds
+      this.props.progress.value = this._isMounted ? data.currentTime / data.seekableDuration : 0;
+  }
+   
+
   onPlayPausePress = () => {
     if (this._isMounted) {
       this.setState({ isPaused: !this.state.isPaused });
@@ -100,78 +126,99 @@ class Post extends React.PureComponent<PostProps, PostState> {
     return (
       <View style={styles.container}>
         <TouchableWithoutFeedback
-          onPressOut={this.onPlayPausePress}
+          //onPressOut={this.onPlayPausePress}
           onPressIn={this.onPlayPausePress}>
           <View>
             <Video
-              //key={post.id}
-              source={post.videoUri}
-              style={styles.video}
-              ref={(ref) => this.playerRef = ref}
-              onError={(e: any) => console.log(e)}
-              paused={isPaused} //currentVisibleIndex }
-              playInBackground={false}
-              playWhenInactive={false}
-              ignoreSilentSwitch={"obey"}
-              onLoad={() => this.playerRef?.seek(0)}
-              repeat
-              //muted
-              resizeMode="cover"
-            />
+                //key={post.id}
+                source={post.src}
+                style={styles.video}
+                ref={(ref) => this.playerRef = ref}
+                onError={(e: any) => console.log(e)}
+                paused//={isPaused} //currentVisibleIndex }
+                playInBackground={false}
+                playWhenInactive={false}
+                ignoreSilentSwitch={"obey"}
+                onLoad={() => this.playerRef?.seek(0)}
+                repeat
+                //muted
+                onProgress={this.handleProgress}
+                resizeMode='cover'
+              />
             <View style={styles.uiContainer}>
-              <View style={styles.rightContainer}>
+              {/* <View style={styles.rightContainer}>
                 <Image
                   style={styles.profilePicture}
                   resizeMode={"cover"}
                   source={post.user.imageUri}
                 />
                 <TouchableOpacity style={styles.iconContainer} onPress={this.onLikePress}>
-                  <Heart color={isLiked ? 'red' : 'white'} fill />
-                  <Text style={styles.statsLabel}>{post.likes}</Text>
+                  <Icon name="like" svg={{ fill: isLiked ? 'red' : "white", height: 25, width: 25 }} />                  
+                  <Text style={styles.statsLabel}>{millify(post.likes)}</Text>
                 </TouchableOpacity>
-
                 <View style={styles.iconContainer}>
-                  <Comment color="white" />
-                  <Text style={styles.statsLabel}>{post.comments}</Text>
+                  <Icon name="comment" svg={{ fill: "white", height: 25, width: 25 }} />
+                  <Text style={styles.statsLabel}>{millify(post.comments)}</Text>
                 </View>
-
+                <View style={styles.iconContainer}>
+                  <Icon name="ticketStar" svg={{ fill: "white", height: 25, width: 25 }} />
+                  <Text style={styles.statsLabel}>{millify(post.stars)}</Text>
+                </View>
                 <View style={styles.iconContainer}>
                   <Share color="white" />
-                  <Text style={styles.statsLabel}>{post.shares}</Text>
+                  <Text style={styles.statsLabel}>{millify(post.shares)}</Text>
                 </View>
-              </View>
+              </View> */}
 
               <View style={styles.bottomContainer}>
-                <View>
-                  <Text style={styles.handle}>@{post.user.username}</Text>
-                  <Text style={styles.description}>{post.description}</Text>
-
-                  <View style={styles.songRow}>
-                    <Music color="white" />
-                    {typeof post.songName !== "string" ?
-                      <Text style={styles.songName}>originalSound @{post.user.username}</Text>
-                      :
-                      <Text style={styles.songName}>{post.songName}</Text>
-                    }
-                  </View>
-                </View>
                 <Image
-                  style={styles.songImage}
-                  resizeMode={"cover"}
-                  source={typeof post.songImage === "string" ? { uri: post.songImage } : IMAGE_SOURCE}
+                  style={{
+					              width:this.getImageSize().width,
+                        flex:2,
+					              height:this.getImageSize().height,
+					              bottom:0,
+					              top:0,
+					              left:0,
+					              right:0,
+					              backgroundColor:"transparent"
+					              }}
+                  resizeMode={"contain"}
+                  source={require("./assets2/watermark.png")}
                 />
+                <View style={{
+                    flex:1,
+                    flexDirection:"row",
+                    backgroundColor:"transparent",
+                    justifyContent:"center",
+                    alignSelf:"flex-end",
+                    alignItems:"center"
+                }} >
+                <View style={styles.iconContainer}>
+                <View style={styles.iconContainer}>
+                <Icon name="like" svg={{ fill: isLiked ? 'red' : "grey", height: 25, width: 25 }} />                  
+                  <Text style={styles.statsLabel}>{millify(post.likes)}</Text>
+                </View>
+                <View style={styles.iconContainer}>
+                  <Icon name="ticketStar" svg={{ fill: "white", height: 25, width: 25 }} />
+                  <Text style={styles.statsLabel}>{millify(post.stars)}</Text>
+                </View>
+                  <Icon name="comment" svg={{ fill: "grey", height: 25, width: 25 }} />
+                  <Text style={styles.statsLabel}>{millify(post.comments)}</Text>
+                </View>
+                </View>
+                {/* <Text style={styles.description}>{post.description ? post.description : post.title}</Text>
+                <View style={styles.songRow}>
+                  <Music color="white" />
+                  {typeof post.attachment?.song?.title !== "string" ?
+                    (<Text style={styles.songName}>originalSound @{post.user.username}</Text>)
+                    :
+                    (<Text style={styles.songName}>{post.attachment.song.title}</Text>)
+                  }
+                </View> */}
               </View>
             </View>
           </View>
         </TouchableWithoutFeedback>
-        {/* <Description
-          style={{ position: "absolute", flexDirection: "column", height: 30, width: "100%", bottom: 0, marginHorizontal: 5, padding: 2 }}
-          linesToTruncate={3}
-          username={post.user.username}>
-          Here is my first comment😁😎, i would like to
-          say that i have always loved what you do, please continue with your good work,
-          why? Because it unites people... Also i have tipped you with some Quoins 😁😋
-        </Description> */}
       </View>
     );
   }
@@ -180,7 +227,10 @@ class Post extends React.PureComponent<PostProps, PostState> {
 interface VideoState {
   items: any[],
 };
-interface VideoProps { };
+interface VideoProps {
+  postProps: (props: DataProps) => void;
+  videoProgress: Animated.SharedValue<number>;
+};
 
 export default class TikTok extends React.PureComponent<VideoProps, VideoState>{
   viewabilityConfig: {
@@ -219,10 +269,12 @@ export default class TikTok extends React.PureComponent<VideoProps, VideoState>{
   _renderItem = (item: ListRenderItemInfo<DataProps>) => {
     return (
       <Post
+        postProps={(currentItem) => this.props.postProps(currentItem)}
         ref={(ref) => {
           //@ts-ignore
           this.cellRefs[item.item.id] = ref;
         }}
+        progress={this.props.videoProgress}
         data={item.item}
       />
     )
@@ -236,6 +288,7 @@ export default class TikTok extends React.PureComponent<VideoProps, VideoState>{
       if (cell) {
         if (item.isViewable) {
           cell.play()
+          cell.post()
         } else {
           cell.pause()
         }
@@ -253,14 +306,16 @@ export default class TikTok extends React.PureComponent<VideoProps, VideoState>{
           data={items}
           renderItem={this._renderItem}
           keyExtractor={(item) => item.id}
-          showsVerticalScrollIndicator={false}
+          horizontal
+          showsHorizontalScrollIndicator={false}
           onViewableItemsChanged={this._onViewableItemsChanged}
           viewabilityConfig={this.viewabilityConfig}
           initialNumToRender={3}
           maxToRenderPerBatch={3}
           windowSize={5}
           removeClippedSubviews
-          snapToInterval={HEIGHT}
+          snapToInterval={WIDTH}
+          //snapToInterval={HEIGHT}
           snapToAlignment="start" //{'start'}
           decelerationRate="fast" //{'fast'}
         />

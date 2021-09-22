@@ -1,1 +1,1 @@
-export {default as Home} from "./Chanel/index"
+export {default as Home} from "../userprofile/Video2"

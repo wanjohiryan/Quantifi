@@ -26,9 +26,9 @@ module.exports = async function () {
 
 	TrackPlayer.addEventListener(TrackPlayerEvents.REMOTE_PAUSE, async() => {
 		await TrackPlayer.pause();
-		// setTimeout(async() => {
-		// 	await TrackPlayer.reset()
-		// }, 6000);
+		setTimeout(() => {
+			 TrackPlayer.destroy();
+		},10000);
 	});
 
 	TrackPlayer.addEventListener(TrackPlayerEvents.REMOTE_NEXT, async() => {

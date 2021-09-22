@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { View, TouchableWithoutFeedback, StyleSheet, StyleProp, ViewStyle, ActivityIndicator } from "react-native";
+import Animated,{ useAnimatedStyle, withTiming } from "react-native-reanimated";
 import TrackPlayer, { usePlaybackState } from "react-native-track-player";
 
 import Icon from "../../../icons";
@@ -31,6 +32,10 @@ export default function PlayPause({ style, radius: r }: Props) {
         }
     }, [playbackState]);
 
+    const playerSheet = useAnimatedStyle(()=>({
+        backgroundColor: isPlaying.current === "loading" ? withTiming("white") : withTiming("transparent") 
+    }))
+
     function returnPlayBtn() {
         switch (isPlaying.current) {
             case "playing":
@@ -43,18 +48,18 @@ export default function PlayPause({ style, radius: r }: Props) {
         }
     }
 
-    const onPlayPause = () => {
+    const onPlayPause = async() => {
         if (isPlaying.current === "playing") {
-            TrackPlayer.pause()
+           await TrackPlayer.pause()
         } else if (isPlaying.current === "paused") {
-            TrackPlayer.play()
+            await TrackPlayer.play()
         }
     }
     return (
         <TouchableWithoutFeedback onPress={onPlayPause}>
-            <View style={[styles.container, { backgroundColor: isPlaying.current === "loading" ? "white" : "transparent" }, style]}>
+            <Animated.View style={[styles.container, playerSheet, style]}>
                 {returnPlayBtn()}
-            </View>
+            </Animated.View>
         </TouchableWithoutFeedback>
 
     )

@@ -1,1 +1,1 @@
-export {default as Quoin} from "./LiquidSwipe";
+export {default as Profile} from "./LiquidSwipe";

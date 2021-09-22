@@ -4,6 +4,12 @@ import android.app.Application;
 import android.content.Context;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
+import org.wonday.orientation.OrientationPackage;
+import com.zoontek.rnbootsplash.RNBootSplashPackage;
+import org.reactnative.camera.RNCameraPackage;
+import com.reactnativecommunity.cameraroll.CameraRollPackage;
+import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
+import com.oblador.vectoricons.VectorIconsPackage;
 import com.tanguyantoine.react.MusicControl;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
@@ -21,8 +27,25 @@ import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import org.acra.*;
+import org.acra.annotation.*;
 
+
+@AcraCore(buildConfigClass = BuildConfig.class)
+@AcraMailSender(mailTo = "quantifiltd@gmail.com")
+// @ReportsCrashes(mailTo = "user@domain.com", customReportContent = {
+ // ReportField.APP_VERSION_CODE, ReportField.APP_VERSION_NAME,
+ // ReportField.ANDROID_VERSION, ReportField.PHONE_MODEL,
+ // ReportField.CUSTOM_DATA, ReportField.STACK_TRACE, ReportField.LOGCAT},
+ // mode = ReportingInteractionMode.TOAST, resToastText = R.string.crash_toast_text)
+@AcraDialog(resText = R.string.acra_dialog_text, resCommentPrompt = R.string.acra_dialog_comment)
 public class MainApplication extends Application implements ReactApplication {
+
+		@Override
+		protected void attachBaseContext(Context base) {
+			super.attachBaseContext(base);
+			ACRA.init(this);
+		}
 
   private final ReactNativeHost mReactNativeHost =
       new ReactNativeHost(this) {
@@ -38,6 +61,10 @@ public class MainApplication extends Application implements ReactApplication {
           List<ReactPackage> packages = new PackageList(this).getPackages();
           // Packages that cannot be autolinked yet can be added manually here, for example:
           // packages.add(new MyReactNativePackage());
+		  packages.add(new CameraRollPackage());
+		  packages.add(new RNBootSplashPackage());
+		  packages.add(new OrientationPackage());
+
           return packages;
         }
 

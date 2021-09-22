@@ -8,6 +8,7 @@ import Animated, {
   useAnimatedGestureHandler,
   runOnJS,
 } from "react-native-reanimated";
+//import { DataProps } from "../../userprofile/Data";
 
 const margin = 10;
 
@@ -81,7 +82,7 @@ const ChannelIcon = ({
         runOnJS(onPress)()
         isActive.value = true;
       // const t = (x / (radius * 2));
-      //     //console.log("raw",t)
+    //     //console.log("raw",t)
        //const v = clamp(t,currentIndex);
       //      //console.log("output",v)
       //index.value = withSpring(v);

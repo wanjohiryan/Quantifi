@@ -1,4 +1,6 @@
 apply plugin: "com.android.application"
+/**firebase*/
+apply plugin: 'com.google.gms.google-services'
 
 import com.android.build.OutputFile
 
@@ -25,7 +27,7 @@ import com.android.build.OutputFile
  *
  *   // whether to bundle JS and assets in debug mode
  *   bundleInDebug: false,
- *
+ *	
  *   // whether to bundle JS and assets in release mode
  *   bundleInRelease: true,
  *
@@ -131,6 +133,7 @@ android {
     defaultConfig {
         applicationId "com.quantifi"
         minSdkVersion rootProject.ext.minSdkVersion
+		missingDimensionStrategy 'react-native-camera', 'general'
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
@@ -187,6 +190,9 @@ dependencies {
     implementation "com.facebook.react:react-native:+"  // From node_modules
 	//multiDex
 	implementation "androidx.multidex:multidex:2.0.1"
+	//firebase
+	implementation platform('com.google.firebase:firebase-bom:28.4.0')
+	implementation 'com.google.firebase:firebase-analytics'
 	
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 

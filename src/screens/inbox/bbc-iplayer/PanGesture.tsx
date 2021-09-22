@@ -8,6 +8,7 @@ import Animated,{
   runOnJS,
 } from "react-native-reanimated";
 import {snapPoint} from "react-native-redash";
+import TrackPlayer from "react-native-track-player";
 import { PanGestureHandler, PanGestureHandlerGestureEvent } from "react-native-gesture-handler";
 import {DataType} from "./Data";
 

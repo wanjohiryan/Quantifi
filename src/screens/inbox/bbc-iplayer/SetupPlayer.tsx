@@ -6,7 +6,7 @@ export default async function (songs:any[]) {
 	await TrackPlayer.setupPlayer().then(async()=>{
 		await TrackPlayer.reset();
 		await TrackPlayer.add(songs);
-		await TrackPlayer.play();
+		// await TrackPlayer.play();
 
 		TrackPlayer.updateOptions({
 			stopWithApp: true,

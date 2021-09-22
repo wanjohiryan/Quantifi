@@ -3,23 +3,30 @@ import {
     createBottomTabNavigator,
     BottomTabBarProps,
 } from "@react-navigation/bottom-tabs";
+import {useSharedValue} from "react-native-reanimated";
 
 import Tabbar from "./../screens/tabbar/BottomTab";
+import { Data, DataProps } from "../screens/userprofile/Data";
 import { Home } from "./../screens/home";
-import { Inbox } from "./../screens/inbox";
-import { Quoin } from "./../screens/quoin";
-import { Trending } from "./../screens/apps";
-import { Profile } from "./../screens/userprofile";
+import { Profile } from "./../screens/quoin";
+import { Camera } from "./../screens/apps";
 
 type Routes = {
     Home: React.ReactElement,
     Inbox: React.ReactElement,
     Quoin: React.ReactElement,
-    Trending: React.ReactElement,
+    Camera: React.ReactElement,
     Profile: React.ReactElement,
 }
 
 const BottomTab: React.FC = () => {
+    // const params = React.useRef<DataProps>();
+    const [params, setParams] = React.useState<DataProps>(Data[0]);
+    const videoProgress = useSharedValue(0);
+
+    React.useEffect(()=>{
+        console.log("progress:",videoProgress.value)
+    },[videoProgress]);
 
     const Tab = createBottomTabNavigator<Routes>();
 
@@ -32,34 +39,22 @@ const BottomTab: React.FC = () => {
             }}
             tabBar={({ state, navigation, descriptors }: BottomTabBarProps) =>
 
-                <Tabbar {...{ state, navigation, descriptors }} />}>
+                <Tabbar {...{ state, navigation, descriptors, params, videoProgress }} />}>
 
             <Tab.Screen
                 name="Home"
-                component={Home}
-                options={{
-                    tabBarLabel: "Home"
-                }}
+                //component={() => <Home postProps={params}/>}
+                options={{tabBarLabel: "Home"}}
+                children={() =>( 
+                  <Home
+                    videoProgress={videoProgress}
+                    postProps={(props)=>setParams(props)}/>)}
             />
             <Tab.Screen
-                name="Trending"
-                component={Trending}
+                name="Camera"
+                component={Camera}
                 options={{
-                    tabBarLabel: "Popular"
-                }}
-            />
-            <Tab.Screen
-                name="Quoin"
-                component={Quoin}
-                options={{
-                    tabBarLabel: "Quoin"
-                }}
-            />
-            <Tab.Screen
-                name="Inbox"
-                component={Inbox}
-                options={{
-                    tabBarLabel: "Inbox"
+                    tabBarLabel: "Camera"
                 }}
             />
             <Tab.Screen

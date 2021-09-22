@@ -1,6 +1,7 @@
 import {Dimensions, StyleSheet} from "react-native";
 
-export const HEIGHT = Dimensions.get('window').height - 100;
+export const HEIGHT = Dimensions.get('window').height;
+export const WIDTH =  Dimensions.get('window').width;
 const hHeight = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
@@ -39,20 +40,28 @@ const styles = StyleSheet.create({
     uiContainer: {
       height: '100%',
       justifyContent: 'flex-end',
+      
     },
     bottomContainer: {
       padding: 10,
       flexDirection: 'row',
       justifyContent: 'space-between',
-      alignItems: 'flex-end',
+      alignItems: 'flex-start',
+      marginBottom:100
     },
     handle: {
       color: '#fff',
       fontSize: 16,
       fontWeight: '700',
-      marginBottom: 10,
+      marginBottom: 20,
     },
     description: {
+      color: '#fff',
+      fontSize: 16,
+      fontWeight: '300',
+      marginBottom: 20,
+    },
+    description2: {
       color: '#fff',
       fontSize: 16,
       fontWeight: '300',
@@ -61,6 +70,8 @@ const styles = StyleSheet.create({
     songRow: {
       flexDirection: 'row',
       alignItems: 'center',
+      padding:0,
+      marginBottom:-20,
     },
     songName: {
       color: '#fff',
@@ -79,9 +90,11 @@ const styles = StyleSheet.create({
     //  right container
     rightContainer: {
       alignSelf: 'flex-end',
-      height: 300,
+      height: HEIGHT/2,
       justifyContent: 'space-between',
       marginRight: 5,
+      position:"absolute",
+      bottom:80
     },
     profilePicture: {
       width: 50,
@@ -89,6 +102,7 @@ const styles = StyleSheet.create({
       borderRadius: 25,
       borderWidth: 2,
       borderColor: '#fff',
+      alignSelf:"flex-end"
     },
   
     iconContainer: {

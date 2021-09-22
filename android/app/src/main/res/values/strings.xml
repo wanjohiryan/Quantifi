@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Quantifi</string>
+	<string name="acra_dialog_text">Sorry, the app has crashed. Please send us a (private) report to fix this.</string>
+    <string name="acra_dialog_comment">If you wish, explain what happened.</string>
 </resources>

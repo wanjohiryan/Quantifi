@@ -10,6 +10,9 @@ __tests__/
 assets/
 Assets/
 
+#For now
+screens/
+
 # Xcode
 #
 build/
@@ -38,8 +41,7 @@ local.properties
 *.iml
 
 # Visual Studio Code
-#
-.vscode/
+#.vscode/
 
 # node.js
 #
