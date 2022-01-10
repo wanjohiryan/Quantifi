@@ -24,7 +24,7 @@
     "@react-navigation/stack": "^5.12.8",
     "@shopify/restyle": "^1.0.4",
     "@skele/components": "^1.0.0-alpha.40",
-    "axios": "^0.21.0",
+    "axios": "^0.21.2",
     "d3": "^5.16.0",
     "d3-interpolate-path": "^2.1.2",
     "d3-path": "^1.0.9",
